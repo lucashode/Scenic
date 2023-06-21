@@ -178,7 +178,7 @@ class CarlaSimulation(DrivingSimulation):
 			blueprint.set_attribute('is_invincible', 'False')
 
 		# Set up transform
-		loc = utils.scenicToCarlaLocation(obj.position, world=self.world, blueprint=obj.blueprint)
+		loc = utils.scenicToCarlaLocation(obj.position,obj.elevation, world=self.world, blueprint=obj.blueprint)
 		rot = utils.scenicToCarlaRotation(obj.heading)
 		transform = carla.Transform(loc, rot)
 

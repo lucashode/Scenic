@@ -119,6 +119,7 @@ class CarlaActor(DrivingObject):
     rolename: None
     color: None
     physics: True
+    
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -139,6 +140,8 @@ class CarlaActor(DrivingObject):
             self.carlaActor.set_target_velocity(cvel)
         else:
             self.carlaActor.set_velocity(cvel)
+    def getPosition(self):
+       _utils.scenicToCarlaLocation(self.position)
 
 class Vehicle(Vehicle, CarlaActor, Steers):
     """Abstract class for steerable vehicles."""
@@ -214,6 +217,8 @@ class Pedestrian(Pedestrian, CarlaActor, Walks):
         self.control.speed = speed
 
 
+
+
 class Prop(CarlaActor):
     """Abstract class for props, i.e. non-moving objects.
 
@@ -227,6 +232,32 @@ class Prop(CarlaActor):
     width: 0.5
     length: 0.5
     physics: False
+
+
+class Drone(Prop):
+    """Abstract class for props, i.e. non-moving objects.
+
+    Properties:
+        heading (float): Default value overridden to be uniformly random.
+        physics (bool): Default value overridden to be false.
+    """
+    regionContainedIn: road
+    position: Point on road
+    heading: Range(0, 360) deg
+    width: 0.5
+    length: 0.5
+    physics: False
+
+class CivilianDrone(Drone):
+    blueprint: Uniform(*blueprints.civiliandroneModels)
+
+class MilitaryDrone(Drone):
+    blueprint: Uniform(*blueprints.militarydroneModels)
+
+class Apartment(Prop):
+    blueprint: Uniform(*blueprints.apartmentModels)
+
+
 
 class Trash(Prop):
     blueprint: Uniform(*blueprints.trashModels)

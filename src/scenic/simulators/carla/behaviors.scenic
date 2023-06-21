@@ -1,11 +1,50 @@
 """Behaviors for dynamic agents in CARLA scenarios."""
 
 from scenic.domains.driving.behaviors import *	# use common driving behaviors
+import scenic.domains.driving.model as _model
+import random
+
 
 try:
     from scenic.simulators.carla.actions import *
 except ModuleNotFoundError:
     pass    # ignore; error will be caught later if user attempts to run a simulation
+
+
+behavior DroneBehavior():
+    old_pos=self.position
+    old_x = old_pos.x
+    old_y = old_pos.y
+    old_rot = self.heading
+    init_yaw = math.degrees(-old_rot) +180
+    while(1):
+        
+        rot = self.heading
+        yaw = math.degrees(-rot) +180
+        x = self.position.x
+        y = self.position.y
+        dist = ((x-old_x)**2+(y-old_y)**2)**(1/2)
+        if(dist<50):
+            take SetDroneForward(True)
+            init_yaw = math.degrees(-rot) +180
+            rand = random.randint(0,1)
+        else:
+            if(abs(yaw-init_yaw)<90):
+                
+                if rand==1:
+                    take SetDroneRightTurn(True)
+                else:
+                    take SetDroneLeftTurn(True)
+            else:
+                old_pos=self.position
+                old_x= old_pos.x
+                old_y = old_pos.y
+        
+        #take SetDroneRightTurn(True)
+        
+
+        
+
 
 behavior AutopilotBehavior():
     """Behavior causing a vehicle to use CARLA's built-in autopilot."""
@@ -53,12 +92,12 @@ behavior CrossingBehavior(reference_actor, min_speed=1, threshold=10, final_spee
         if actor_speed < min_speed:
             actor_speed = min_speed
 
-        if isinstance(self, Walks):
+        if isinstance(self, _model.Walks):
             do WalkForwardBehavior(actor_speed)
-        elif isinstance(self, Steers):
+        elif isinstance(self, _model.Steers):
             take SetSpeedAction(actor_speed)
 
-    if isinstance(self, Walks):
+    if isinstance(self, _model.Walks):
         do WalkForwardBehavior(final_speed)
-    elif isinstance(self, Steers):
+    elif isinstance(self, _model.Steers):
         take SetSpeedAction(final_speed)

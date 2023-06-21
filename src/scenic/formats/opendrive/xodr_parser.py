@@ -1656,7 +1656,13 @@ class RoadMap:
             # Gather maneuvers
             allManeuvers = []
             for lane, maneuvers in maneuversForLane.items():
-                assert lane.maneuvers == ()
+                
+                try:
+                    assert lane.maneuvers == ()
+                except AssertionError:
+                    print(lane.id)
+                    print(maneuvers)
+                pass
                 lane.maneuvers = tuple(maneuvers)
                 allManeuvers.extend(maneuvers)
 

@@ -159,6 +159,34 @@ gnomeModels = [
       'static.prop.gnome'
 ]
 
+#: blueprints for drones
+civiliandroneModels = [
+      'static.prop.drone_civilian_parrot',
+      'static.prop.drone_civilian_minimalistic',
+      'static.prop.drone_civilian_generic',
+      'static.prop.drone_civilian_phantom',
+
+]
+
+#: blueprints for drones
+militarydroneModels = [
+      'static.prop.drone_f35',
+      'static.prop.drone_military_bayraktar',
+      'static.prop.drone_fictitious_cyberpolicevtol',
+      'static.prop.drone_military_reaper'
+
+]
+
+#: blueprints for apartment
+apartmentModels = [
+      'static.prop.apartments01'
+]
+
+#: blueprints for cube
+cubeModels = [
+      'static.prop.firstcube'
+]
+
 #: blueprints for creased boxes
 creasedboxModels = [
       'static.prop.creasedbox01',

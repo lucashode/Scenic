@@ -35,6 +35,63 @@ class SetTransformAction(Action):	# TODO eliminate
 		transform = _carla.Transform(loc, rot)
 		obj.carlaActor.set_transform(transform)
 
+#############################################
+# Actions specific to carla.Drone objects #
+#############################################
+
+class DroneAction(Action):
+	def canBeTakenBy(self, agent):
+		return isinstance(agent, _carlaModel.Drone)
+
+class SetDroneForward(DroneAction):
+	def __init__(self, enabled):
+		if not isinstance(enabled, bool):
+			raise RuntimeError('Enabled must be a boolean.')
+		self.enabled = enabled
+
+	def applyTo(self, obj, sim):
+		drone = obj.carlaActor
+		transform = drone.get_transform()
+		right_vect = transform.get_right_vector()
+		drone.set_transform(_carla.Transform(transform.location+right_vect,transform.rotation))
+
+
+class SetDroneRightTurn(DroneAction):
+	def __init__(self, enabled):
+		if not isinstance(enabled, bool):
+			raise RuntimeError('Enabled must be a boolean.')
+		self.enabled = enabled
+
+	def applyTo(self, obj, sim):
+		drone = obj.carlaActor
+		transform = drone.get_transform()
+		right_vect = transform.get_right_vector()
+		drone.set_transform(_carla.Transform(transform.location+right_vect,_carla.Rotation(yaw=transform.rotation.yaw+5)))	
+
+class SetDroneLeftTurn(DroneAction):
+	def __init__(self, enabled):
+		if not isinstance(enabled, bool):
+			raise RuntimeError('Enabled must be a boolean.')
+		self.enabled = enabled
+
+	def applyTo(self, obj, sim):
+		drone = obj.carlaActor
+		transform = drone.get_transform()
+		right_vect = transform.get_right_vector()
+		drone.set_transform(_carla.Transform(transform.location+right_vect,_carla.Rotation(yaw=transform.rotation.yaw-5)))
+
+class SetDroneLooping(DroneAction):
+	def __init__(self, enabled):
+		if not isinstance(enabled, bool):
+			raise RuntimeError('Enabled must be a boolean.')
+		self.enabled = enabled
+
+	def applyTo(self, obj, sim):
+		drone = obj.carlaActor
+		transform = drone.get_transform()
+		right_vect = transform.get_right_vector()
+		drone.set_transform(_carla.Transform(transform.location+right_vect,_carla.Rotation(roll=transform.rotation.roll-5)))
+
 
 #############################################
 # Actions specific to carla.Vehicle objects #
@@ -104,6 +161,9 @@ class SetAutopilotAction(VehicleAction):
 	def applyTo(self, obj, sim):
 		vehicle = obj.carlaActor
 		vehicle.set_autopilot(self.enabled, sim.tm.get_port())
+
+
+
 
 class SetVehicleLightStateAction(VehicleAction):
 	"""Set the vehicle lights' states.
