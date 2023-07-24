@@ -39,11 +39,11 @@ class SetTransformAction(Action):	# TODO eliminate
 # Actions specific to carla.Drone objects #
 #############################################
 
-class DroneAction(Action):
+class FlyingAction(Action):
 	def canBeTakenBy(self, agent):
-		return isinstance(agent, _carlaModel.Drone)
+		return isinstance(agent, _carlaModel.FlyingObject)
 
-class SetDroneForward(DroneAction):
+class FlyForward(FlyingAction):
 	def __init__(self, enabled):
 		if not isinstance(enabled, bool):
 			raise RuntimeError('Enabled must be a boolean.')
@@ -53,10 +53,10 @@ class SetDroneForward(DroneAction):
 		drone = obj.carlaActor
 		transform = drone.get_transform()
 		right_vect = transform.get_right_vector()
-		drone.set_transform(_carla.Transform(transform.location+right_vect,transform.rotation))
+		drone.set_transform(_carla.Transform(transform.location+0.3*right_vect,transform.rotation))
 
 
-class SetDroneRightTurn(DroneAction):
+class FlyRightTurn(FlyingAction):
 	def __init__(self, enabled):
 		if not isinstance(enabled, bool):
 			raise RuntimeError('Enabled must be a boolean.')
@@ -66,9 +66,9 @@ class SetDroneRightTurn(DroneAction):
 		drone = obj.carlaActor
 		transform = drone.get_transform()
 		right_vect = transform.get_right_vector()
-		drone.set_transform(_carla.Transform(transform.location+right_vect,_carla.Rotation(yaw=transform.rotation.yaw+5)))	
+		drone.set_transform(_carla.Transform(transform.location+0.3*right_vect,_carla.Rotation(yaw=transform.rotation.yaw+5)))	
 
-class SetDroneLeftTurn(DroneAction):
+class FlyLeftTurn(FlyingAction):
 	def __init__(self, enabled):
 		if not isinstance(enabled, bool):
 			raise RuntimeError('Enabled must be a boolean.')
@@ -78,19 +78,7 @@ class SetDroneLeftTurn(DroneAction):
 		drone = obj.carlaActor
 		transform = drone.get_transform()
 		right_vect = transform.get_right_vector()
-		drone.set_transform(_carla.Transform(transform.location+right_vect,_carla.Rotation(yaw=transform.rotation.yaw-5)))
-
-class SetDroneLooping(DroneAction):
-	def __init__(self, enabled):
-		if not isinstance(enabled, bool):
-			raise RuntimeError('Enabled must be a boolean.')
-		self.enabled = enabled
-
-	def applyTo(self, obj, sim):
-		drone = obj.carlaActor
-		transform = drone.get_transform()
-		right_vect = transform.get_right_vector()
-		drone.set_transform(_carla.Transform(transform.location+right_vect,_carla.Rotation(roll=transform.rotation.roll-5)))
+		drone.set_transform(_carla.Transform(transform.location+0.3*right_vect,_carla.Rotation(yaw=transform.rotation.yaw-5)))
 
 
 #############################################

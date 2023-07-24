@@ -234,7 +234,7 @@ class Prop(CarlaActor):
     physics: False
 
 
-class Drone(Prop):
+class FlyingObject(Prop):
     """Abstract class for props, i.e. non-moving objects.
 
     Properties:
@@ -248,11 +248,14 @@ class Drone(Prop):
     length: 0.5
     physics: False
 
-class CivilianDrone(Drone):
+class CivilianDrone(FlyingObject):
     blueprint: Uniform(*blueprints.civiliandroneModels)
 
-class MilitaryDrone(Drone):
+class MilitaryDrone(FlyingObject):
     blueprint: Uniform(*blueprints.militarydroneModels)
+
+class Bird(FlyingObject):
+    blueprint: Uniform(*blueprints.birdModels)
 
 class Apartment(Prop):
     blueprint: Uniform(*blueprints.apartmentModels)

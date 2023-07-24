@@ -177,6 +177,25 @@ militarydroneModels = [
 
 ]
 
+#: blueprints for birds
+birdModels = [
+      'static.prop.eagle_01',
+      'static.prop.eagle_02',
+      'static.prop.eagle_03',
+      'static.prop.eagle_04',
+      'static.prop.eagle_05',
+      'static.prop.eagle_06',
+      'static.prop.eagle_07',
+      'static.prop.blackeagle_01',
+      'static.prop.blackeagle_02',
+      'static.prop.blackeagle_03',
+      'static.prop.blackeagle_04',
+      'static.prop.blackeagle_05',
+      'static.prop.blackeagle_06',
+      'static.prop.blackeagle_07'
+
+]
+
 #: blueprints for apartment
 apartmentModels = [
       'static.prop.apartments01'

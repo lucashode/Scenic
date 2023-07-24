@@ -11,7 +11,7 @@ except ModuleNotFoundError:
     pass    # ignore; error will be caught later if user attempts to run a simulation
 
 
-behavior DroneBehavior():
+behavior FlyingBehavior():
     old_pos=self.position
     old_x = old_pos.x
     old_y = old_pos.y
@@ -25,16 +25,16 @@ behavior DroneBehavior():
         y = self.position.y
         dist = ((x-old_x)**2+(y-old_y)**2)**(1/2)
         if(dist<50):
-            take SetDroneForward(True)
+            take FlyForward(True)
             init_yaw = math.degrees(-rot) +180
             rand = random.randint(0,1)
         else:
             if(abs(yaw-init_yaw)<90):
                 
                 if rand==1:
-                    take SetDroneRightTurn(True)
+                    take FlyRightTurn(True)
                 else:
-                    take SetDroneLeftTurn(True)
+                    take FlyLeftTurn(True)
             else:
                 old_pos=self.position
                 old_x= old_pos.x
